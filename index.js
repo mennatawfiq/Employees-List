@@ -8,7 +8,7 @@ const server = createServer(app);
 
 app.use("/", express.static(path.resolve(__dirname, "./client")));
 
-server.listen(3000, (req, res) => {
+server.listen(4000, (req, res) => {
     console.log('hi from ws');
 });
 
@@ -17,7 +17,7 @@ const wsServer = new WebSocket.Server({ noServer: true });
 let employeesList = [];
 
 wsServer.on('connection', (ws) => {
-    ws.send(JSON.stringify({ type: 'sync', employees: employeesList }));
+    ws.send(JSON.stringify({ type: 'sync', employees: employeesList })); // Send current state to new client
 
     ws.on('message', (message) => {
         const data = JSON.parse(message);
@@ -32,10 +32,11 @@ wsServer.on('connection', (ws) => {
             employeesList = employeesList.filter(emp => emp.id != data.id);
         }
 
-        // broadcastingggggg
+        // Broadcast the update to all clients
+        const broadcastData = JSON.stringify({ type: data.type, ...data });
         wsServer.clients.forEach(client => {
             if (client.readyState === WebSocket.OPEN) {
-                client.send(message);
+                client.send(broadcastData);
             }
         });
     });
