@@ -21,10 +21,6 @@ class Employee {
         this.email = email;
         this.mobile = mobile;
     }
-    // showData() {
-    //     Employee.showHTML(this.id, this.name, this.email, this.mobile);
-    //     return this;
-    // }
     static showHTML(id, name, email, mobile) {
         const trElement = document.createElement("tr");
         trElement.innerHTML = `
@@ -44,14 +40,6 @@ class Employee {
             Employee.showHTML(item.id, item.name, item.email, item.mobile);
         });
     }
-    // updateEmployee(id) {
-    //     const newItem = { id: id, name: this.name, email: this.email, mobile: this.mobile };
-    //     employeesList.map(item => {
-    //         if (item.id == id) {
-    //             item = newItem;
-    //         }
-    //     });
-    // }
 }
 
 formEmp.addEventListener("submit", (e) => {
@@ -81,8 +69,6 @@ tableBody.addEventListener("click", (e) => {
     if (e.target.classList.contains("delete")) {
         e.target.parentElement.parentElement.remove();
         const id = e.target.getAttribute("data-id");
-        employeesList = employeesList.filter(item => item.id != id);
-        Employee.showAllEmployees();
         ws.send(JSON.stringify({ type: 'delete', id }));
     }
 
@@ -106,19 +92,17 @@ ws.onmessage = (event) => {
 
     if (data.type === 'sync') {
         employeesList = data.employees;
-        Employee.showAllEmployees();
     } else if (data.type === 'add') {
         employeesList.push(data.employee);
-        Employee.showAllEmployees();
     } else if (data.type === 'edit') {
         employeesList = employeesList.map(emp =>
             emp.id == data.employee.id ? data.employee : emp
         );
-        Employee.showAllEmployees();
     } else if (data.type === 'delete') {
         employeesList = employeesList.filter(emp => emp.id != data.id);
-        Employee.showAllEmployees();
     }
+
+    Employee.showAllEmployees();
 };
 
 ws.onclose = () => {
