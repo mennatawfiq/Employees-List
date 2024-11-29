@@ -1,4 +1,4 @@
-const ws = new WebSocket('ws://localhost:3000/myWebsocket');
+const ws = new WebSocket('ws://localhost:4000/myWebsocket');
 
 ws.onopen = () => {
     console.log('Connected to the server');
@@ -47,7 +47,6 @@ formEmp.addEventListener("submit", (e) => {
     if (!contIdEdit.value) {
         let id = Math.floor(Math.random() * 10000000);
         const newEmp = new Employee(id, name.value, email.value, mobile.value);
-        employeesList.push(newEmp);
         Employee.showAllEmployees();
         ws.send(JSON.stringify({ type: 'add', employee: newEmp }));
     } else {
@@ -84,10 +83,6 @@ tableBody.addEventListener("click", (e) => {
 })
 
 ws.onmessage = (event) => {
-    Employee.showAllEmployees();
-};
-
-ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
 
     if (data.type === 'sync') {
@@ -105,7 +100,7 @@ ws.onmessage = (event) => {
     Employee.showAllEmployees();
 };
 
+
 ws.onclose = () => {
     console.log('Disconnected from the server');
 };
-
