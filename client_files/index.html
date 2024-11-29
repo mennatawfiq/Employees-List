@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Comatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employees List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+
+    <h1>
+        Employees List
+    </h1>
+    <hr>
+    <h2>Add New Employee</h2>
+    <hr>
+    <form id="formEmp">
+        <input type="text" id="name" placeholder="Name..." required><br>
+        <input type="email" id="email" placeholder="Email..." required><br>
+        <input type="text" id="mobile" placeholder="Mobile..." required><br>
+        <input type="submit" id="submit" value="Store Data">
+        <input type="hidden" id="contIdEdit">
+    </form>
+    <h2>All Employees</h2>
+    <table id="example">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Email</td>
+                <td>Mobile</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script src="script.js"></script>
+</body>
+
+</html>
