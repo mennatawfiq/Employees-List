@@ -8,6 +8,10 @@ const server = createServer(app);
 
 app.use("/", express.static(path.resolve(__dirname, "./client")));
 
+app.get("/", (req, res) => {
+    res.sendFile(`${__dirname}/index.html`);
+});
+
 server.listen(4000, (req, res) => {
     console.log('hi from ws');
 });
@@ -43,7 +47,7 @@ wsServer.on('connection', (ws) => {
 });
 
 server.on('upgrade', function upgrade(request, socket, head) {
-    if (request.url === '/myWebsocket') {
+    if (request.url === '/') {
         wsServer.handleUpgrade(request, socket, head, function done(ws) {
             wsServer.emit('connection', ws, request);
         });
